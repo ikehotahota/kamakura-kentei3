@@ -20,7 +20,8 @@ export default function KamakuraQuiz() {
 
   const startQuiz = (m) => {
     const src = m === "new" ? newQuestions : allQuestions;
-    const shuffled = shuffle(src);
+    const pool_src = m === "quick" ? shuffle(allQuestions).slice(0, 20) : shuffle(src);
+    const shuffled = m === "quick" ? shuffle(allQuestions).slice(0, 20) : shuffle(src);
     setMode(m);
     setPool(shuffled);
     setSc({ correct: 0, total: 0 });
@@ -88,7 +89,7 @@ export default function KamakuraQuiz() {
         </div>
         {phase === "quiz" && (
           <div style={{ marginLeft:"auto", textAlign:"right", fontFamily:"sans-serif" }}>
-            <div style={{ fontSize:"11px", color:gold }}>{mode==="new"?"第11〜19回":"全過去問"} | 正答率 {rate!==null?rate+"%":"-"}</div>
+            <div style={{ fontSize:"11px", color:gold }}>{mode==="new"?"第11〜19回":mode==="quick"?"クイック20問":"全過去問"} | 正答率 {rate!==null?rate+"%":"-"}</div>
             <div style={{ fontSize:"13px" }}>{sc.total} / {pool.length} 問</div>
           </div>
         )}
@@ -112,6 +113,11 @@ export default function KamakuraQuiz() {
                 <div style={{ fontSize:"16px", fontWeight:"bold", marginBottom:"6px" }}>📚 全過去問（第1〜19回）</div>
                 <div style={{ fontSize:"12px", color:gold, fontFamily:"sans-serif", marginBottom:"14px" }}>全340問からランダム出題</div>
                 <button onClick={()=>startQuiz("all")} style={{ background:"rgba(255,255,255,0.08)", border:`1px solid rgba(139,105,20,0.5)`, borderRadius:"8px", padding:"12px 32px", fontSize:"15px", color:"#f5e6c8", cursor:"pointer", fontFamily:"sans-serif" }}>スタート ▶</button>
+              </div>
+              <div style={{ background:"rgba(0,0,0,0.4)", border:"1px solid rgba(139,105,20,0.4)", borderRadius:"12px", padding:"20px" }}>
+                <div style={{ fontSize:"16px", fontWeight:"bold", marginBottom:"6px" }}>⚡ クイック20問</div>
+                <div style={{ fontSize:"12px", color:gold, fontFamily:"sans-serif", marginBottom:"14px" }}>全過去問からランダムに20問だけ出題</div>
+                <button onClick={()=>startQuiz("quick")} style={{ background:"rgba(255,255,255,0.08)", border:`1px solid rgba(139,105,20,0.5)`, borderRadius:"8px", padding:"12px 32px", fontSize:"15px", color:"#f5e6c8", cursor:"pointer", fontFamily:"sans-serif" }}>スタート ▶</button>
               </div>
             </div>
           </div>
