@@ -16,6 +16,7 @@ export default function KamakuraQuiz() {
   const [sc, setSc] = useState({ correct: 0, total: 0 });
   const [history, setHistory] = useState([]);
   const [phase, setPhase] = useState("top");
+  const [finishedAt, setFinishedAt] = useState(null);
 
   const startQuiz = (m) => {
     const src = m === "new" ? newQuestions : allQuestions;
@@ -25,26 +26,48 @@ export default function KamakuraQuiz() {
     setSc({ correct: 0, total: 0 });
     setHistory([]);
     setCurrent(shuffled[0]);
+    setCurrentIdx(0);
     setSelected(null);
     setShowResult(false);
     setPhase("quiz");
   };
+
+  const [currentIdx, setCurrentIdx] = useState(0);
 
   const handleSelect = (idx) => {
     if (showResult) return;
     setSelected(idx);
     setShowResult(true);
     const ok = idx === current.answer;
-    setSc(s => ({ correct: s.correct + (ok ? 1 : 0), total: s.total + 1 }));
-    setHistory(h => [...h, { question: current.question, correct: ok, round: current.round, qno: current.qno }]);
+    // 新規回答のときだけスコアと履歴を更新
+    if (currentIdx === sc.total) {
+      setSc(s => ({ correct: s.correct + (ok ? 1 : 0), total: s.total + 1 }));
+      setHistory(h => [...h, { question: current.question, correct: ok, round: current.round, qno: current.qno, selectedIdx: idx }]);
+    }
   };
 
   const handleNext = () => {
-    const ni = sc.total;
-    if (ni >= pool.length) { setPhase("done"); return; }
+    const ni = currentIdx + 1;
+    if (ni >= pool.length) { setFinishedAt(new Date()); setPhase("done"); return; }
+    setCurrentIdx(ni);
     setCurrent(pool[ni]);
-    setSelected(null);
-    setShowResult(false);
+    // 過去に回答済みの問題なら回答状態を復元
+    if (ni < history.length) {
+      setSelected(history[ni].selectedIdx);
+      setShowResult(true);
+    } else {
+      setSelected(null);
+      setShowResult(false);
+    }
+  };
+
+  const handlePrev = () => {
+    if (currentIdx === 0) return;
+    const pi = currentIdx - 1;
+    setCurrentIdx(pi);
+    setCurrent(pool[pi]);
+    setSelected(history[pi].selectedIdx);
+    setShowResult(true);
   };
 
   const pct = pool.length > 0 ? Math.round((sc.total / pool.length) * 100) : 0;
@@ -144,9 +167,21 @@ export default function KamakuraQuiz() {
             )}
 
             {showResult && (
-              <button onClick={handleNext} style={{ width:"100%", background:`linear-gradient(135deg,${darkGold},${gold})`, border:"none", borderRadius:"8px", padding:"13px", fontSize:"15px", color:"#1a0a00", fontWeight:"bold", cursor:"pointer", fontFamily:"sans-serif", letterSpacing:"1px" }}>
-                {sc.total >= pool.length ? "結果を見る →" : "次の問題 →"}
-              </button>
+              <div style={{ display:"flex", flexDirection:"column", gap:"10px" }}>
+                <button onClick={handleNext} style={{ width:"100%", background:`linear-gradient(135deg,${darkGold},${gold})`, border:"none", borderRadius:"8px", padding:"13px", fontSize:"15px", color:"#1a0a00", fontWeight:"bold", cursor:"pointer", fontFamily:"sans-serif", letterSpacing:"1px" }}>
+                  {currentIdx + 1 >= pool.length ? "結果を見る →" : "次の問題 →"}
+                </button>
+                <div style={{ display:"flex", gap:"10px" }}>
+                  {currentIdx > 0 && (
+                    <button onClick={handlePrev} style={{ flex:1, background:"rgba(255,255,255,0.08)", border:`1px solid rgba(139,105,20,0.5)`, borderRadius:"8px", padding:"11px", fontSize:"14px", color:"#f5e6c8", cursor:"pointer", fontFamily:"sans-serif" }}>
+                      ← 前の問題
+                    </button>
+                  )}
+                  <button onClick={()=>setPhase("top")} style={{ flex:1, background:"rgba(255,255,255,0.05)", border:"1px solid rgba(255,255,255,0.15)", borderRadius:"8px", padding:"11px", fontSize:"14px", color:"#a89060", cursor:"pointer", fontFamily:"sans-serif" }}>
+                    🏠 トップへ
+                  </button>
+                </div>
+              </div>
             )}
           </div>
         )}
@@ -181,10 +216,43 @@ export default function KamakuraQuiz() {
               ))}
             </div>
 
-            <div style={{ display:"flex", gap:"12px", justifyContent:"center", flexWrap:"wrap" }}>
+            <div style={{ display:"flex", gap:"12px", justifyContent:"center", flexWrap:"wrap", marginBottom:"12px" }}>
               <button onClick={()=>startQuiz(mode)} style={{ background:`linear-gradient(135deg,${darkGold},${gold})`, border:"none", borderRadius:"8px", padding:"12px 24px", fontSize:"14px", color:"#1a0a00", fontWeight:"bold", cursor:"pointer", fontFamily:"sans-serif" }}>🔄 同じ範囲で再挑戦</button>
               <button onClick={()=>setPhase("top")} style={{ background:"rgba(255,255,255,0.08)", border:`1px solid rgba(139,105,20,0.5)`, borderRadius:"8px", padding:"12px 24px", fontSize:"14px", color:"#f5e6c8", cursor:"pointer", fontFamily:"sans-serif" }}>🏠 トップへ戻る</button>
             </div>
+            <button onClick={() => {
+              const modeLabel = mode === "new" ? "第11〜19回" : "全過去問（第1〜19回）";
+              const dateStr = finishedAt ? finishedAt.toLocaleDateString("ja-JP", { year:"numeric", month:"2-digit", day:"2-digit" }) : "";
+              const timeStr = finishedAt ? finishedAt.toLocaleTimeString("ja-JP", { hour:"2-digit", minute:"2-digit", second:"2-digit" }) : "";
+              const score = Math.round(sc.correct / sc.total * 100);
+              const lines = [
+                "━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
+                "　　鎌倉検定３級　歴史・史跡　結果レポート",
+                "━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
+                `実施日：${dateStr}`,
+                `終了時刻：${timeStr}`,
+                `出題モード：${modeLabel}`,
+                `得点：${sc.correct} / ${sc.total} 問（${score}点）`,
+                score >= 70 ? "判定：合格圏内 🏆" : score >= 60 ? "判定：もう少し 📜" : "判定：要復習 💪",
+                "",
+                "【正誤一覧】",
+                ...history.map((h, i) =>
+                  `${h.correct ? "○" : "✗"} [第${h.round}回-${h.qno}問] ${h.question.slice(0, 40)}${h.question.length > 40 ? "…" : ""}`
+                ),
+                "",
+                "━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
+              ];
+              const text = lines.join("\n");
+              const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+              const url = URL.createObjectURL(blob);
+              const a = document.createElement("a");
+              a.href = url;
+              a.download = `鎌倉検定結果_${dateStr.replace(/\//g, "")}_${timeStr.replace(/:/g, "")}.txt`;
+              a.click();
+              URL.revokeObjectURL(url);
+            }} style={{ background:"rgba(255,255,255,0.08)", border:`1px solid rgba(139,105,20,0.5)`, borderRadius:"8px", padding:"12px 28px", fontSize:"14px", color:"#f5e6c8", cursor:"pointer", fontFamily:"sans-serif" }}>
+              📄 結果をテキストで保存
+            </button>
           </div>
         )}
 
