@@ -208,7 +208,7 @@ export default function KamakuraQuiz() {
               第{current.round}回・{current.qno}問目
             </div>
 
-            <div style={{ background:"rgba(0,0,0,0.4)", border:"1px solid rgba(139,105,20,0.4)", borderRadius:"12px", padding:"20px", marginBottom:"16px", lineHeight:"1.8", fontSize:"15px" }}>
+            <div style={{ background:"rgba(0,0,0,0.4)", border:"1px solid rgba(139,105,20,0.4)", borderRadius:"12px", padding:"20px", marginBottom:"16px", lineHeight:"1.8", fontSize:"16px" }}>
               {current.question}
             </div>
 
@@ -222,7 +222,7 @@ export default function KamakuraQuiz() {
                   else if (idx === selected) { bg="rgba(140,30,30,0.4)"; border="1px solid #e53935"; color="#ffaaaa"; }
                 }
                 return (
-                  <button key={idx} onClick={()=>handleSelect(idx)} style={{ background:bg, border, borderRadius:"8px", padding:"13px 16px", color, textAlign:"left", cursor:showResult?"default":"pointer", fontSize:"14px", lineHeight:"1.5", fontFamily:"inherit", width:"100%", transition:"all 0.2s" }}>
+                  <button key={idx} onClick={()=>handleSelect(idx)} style={{ background:bg, border, borderRadius:"8px", padding:"13px 16px", color, textAlign:"left", cursor:showResult?"default":"pointer", fontSize:"15px", lineHeight:"1.5", fontFamily:"inherit", width:"100%", transition:"all 0.2s" }}>
                     <span style={{ fontFamily:"sans-serif", marginRight:"8px", color:gold }}>{LABEL[idx]}</span>{choice}
                   </button>
                 );
