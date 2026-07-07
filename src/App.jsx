@@ -123,17 +123,17 @@ export default function KamakuraQuiz() {
 
       {/* Header */}
       <div style={{ background:"rgba(0,0,0,0.4)", borderBottom:`2px solid ${darkGold}`, padding:"14px 20px", display:"flex", alignItems:"center", gap:"12px" }}>
-        <div style={{ fontSize:"26px", cursor: phase !== "top" ? "pointer" : "default" }} onClick={goTop}>⛩</div>
+        <div style={{ fontSize:"30px", cursor: phase !== "top" ? "pointer" : "default" }} onClick={goTop}>⛩</div>
         <div>
-          <div style={{ fontSize:"10px", letterSpacing:"4px", color:gold, fontFamily:"sans-serif" }}>KAMAKURA KENTEI</div>
-          <div style={{ fontSize:"17px", fontWeight:"bold", letterSpacing:"2px" }}>鎌倉検定３級
-            {category && <span style={{ fontSize:"13px", color:gold, marginLeft:"8px" }}>{category.emoji} {category.label}</span>}
+          <div style={{ fontSize:"19px", letterSpacing:"4px", color:gold, fontFamily:"sans-serif" }}>KAMAKURA KENTEI</div>
+          <div style={{ fontSize:"23px", fontWeight:"bold", letterSpacing:"2px" }}>鎌倉検定３級
+            {category && <span style={{ fontSize:"19px", color:gold, marginLeft:"8px" }}>{category.emoji} {category.label}</span>}
           </div>
         </div>
         {phase === "quiz" && (
           <div style={{ marginLeft:"auto", textAlign:"right", fontFamily:"sans-serif" }}>
-            <div style={{ fontSize:"11px", color:gold }}>{modeLabel} | 正答率 {rate !== null ? rate + "%" : "-"}</div>
-            <div style={{ fontSize:"13px" }}>{sc.total} / {pool.length} 問</div>
+            <div style={{ fontSize:"23px", color:gold }}>{modeLabel} | 正答率 {rate !== null ? rate + "%" : "-"}</div>
+            <div style={{ fontSize:"19px" }}>{sc.total} / {pool.length} 問</div>
           </div>
         )}
       </div>
@@ -143,9 +143,9 @@ export default function KamakuraQuiz() {
         {/* TOP: カテゴリ選択 */}
         {phase === "top" && (
           <div style={{ textAlign:"center", paddingTop:"40px" }}>
-            <div style={{ fontSize:"60px", marginBottom:"12px" }}>🏯</div>
-            <h2 style={{ fontSize:"20px", marginBottom:"6px", letterSpacing:"2px" }}>鎌倉検定３級 クイズ</h2>
-            <p style={{ color:"#a89060", fontSize:"13px", marginBottom:"32px", fontFamily:"sans-serif" }}>カテゴリを選んでください</p>
+            <div style={{ fontSize:"64px", marginBottom:"12px" }}>🏯</div>
+            <h2 style={{ fontSize:"23px", marginBottom:"6px", letterSpacing:"2px" }}>鎌倉検定３級 クイズ</h2>
+            <p style={{ color:"#a89060", fontSize:"19px", marginBottom:"32px", fontFamily:"sans-serif" }}>カテゴリを選んでください</p>
             <div style={{ display:"flex", flexDirection:"column", gap:"14px", maxWidth:"340px", margin:"0 auto" }}>
               {CATEGORIES.map(cat => (
                 <button key={cat.id} onClick={() => selectCategory(cat)} style={{
@@ -161,12 +161,12 @@ export default function KamakuraQuiz() {
                   fontFamily:"inherit",
                   width:"100%",
                 }}>
-                  <span style={{ fontSize:"32px" }}>{cat.emoji}</span>
+                  <span style={{ fontSize:"36px" }}>{cat.emoji}</span>
                   <div style={{ textAlign:"left" }}>
-                    <div style={{ fontSize:"16px", fontWeight:"bold", marginBottom:"4px" }}>{cat.label}</div>
-                    <div style={{ fontSize:"12px", color:gold, fontFamily:"sans-serif" }}>全{cat.allQuestions.length}問収録</div>
+                    <div style={{ fontSize:"19px", fontWeight:"bold", marginBottom:"4px" }}>{cat.label}</div>
+                    <div style={{ fontSize:"21px", color:gold, fontFamily:"sans-serif" }}>全{cat.allQuestions.length}問収録</div>
                   </div>
-                  <span style={{ marginLeft:"auto", color:gold, fontSize:"20px" }}>›</span>
+                  <span style={{ marginLeft:"auto", color:gold, fontSize:"23px" }}>›</span>
                 </button>
               ))}
             </div>
@@ -176,26 +176,26 @@ export default function KamakuraQuiz() {
         {/* MODE: 出題モード選択 */}
         {phase === "mode" && category && (
           <div style={{ textAlign:"center", paddingTop:"30px" }}>
-            <div style={{ fontSize:"48px", marginBottom:"10px" }}>{category.emoji}</div>
-            <h2 style={{ fontSize:"18px", marginBottom:"4px", letterSpacing:"2px" }}>{category.label}</h2>
-            <p style={{ color:"#a89060", fontSize:"13px", marginBottom:"28px", fontFamily:"sans-serif" }}>出題モードを選んでください</p>
+            <div style={{ fontSize:"56px", marginBottom:"10px" }}>{category.emoji}</div>
+            <h2 style={{ fontSize:"21px", marginBottom:"4px", letterSpacing:"2px" }}>{category.label}</h2>
+            <p style={{ color:"#a89060", fontSize:"19px", marginBottom:"28px", fontFamily:"sans-serif" }}>出題モードを選んでください</p>
             <div style={{ display:"flex", flexDirection:"column", gap:"12px", maxWidth:"340px", margin:"0 auto" }}>
               <div style={{ background:"rgba(0,0,0,0.4)", border:`1px solid ${darkGold}`, borderRadius:"12px", padding:"18px" }}>
-                <div style={{ fontSize:"15px", fontWeight:"bold", marginBottom:"4px" }}>🆕 第11〜19回</div>
-                <div style={{ fontSize:"12px", color:gold, fontFamily:"sans-serif", marginBottom:"12px" }}>最新9回分 全{category.newQuestions.length}問からランダム出題</div>
-                <button onClick={()=>startQuiz("new")} style={{ background:`linear-gradient(135deg,${darkGold},${gold})`, border:"none", borderRadius:"8px", padding:"11px 28px", fontSize:"14px", color:"#1a0a00", fontWeight:"bold", cursor:"pointer", fontFamily:"sans-serif" }}>スタート ▶</button>
+                <div style={{ fontSize:"21px", fontWeight:"bold", marginBottom:"4px" }}>🆕 第11〜19回</div>
+                <div style={{ fontSize:"21px", color:gold, fontFamily:"sans-serif", marginBottom:"12px" }}>最新9回分 全{category.newQuestions.length}問からランダム出題</div>
+                <button onClick={()=>startQuiz("new")} style={{ background:`linear-gradient(135deg,${darkGold},${gold})`, border:"none", borderRadius:"8px", padding:"11px 28px", fontSize:"23px", color:"#1a0a00", fontWeight:"bold", cursor:"pointer", fontFamily:"sans-serif" }}>スタート ▶</button>
               </div>
               <div style={{ background:"rgba(0,0,0,0.4)", border:"1px solid rgba(139,105,20,0.4)", borderRadius:"12px", padding:"18px" }}>
-                <div style={{ fontSize:"15px", fontWeight:"bold", marginBottom:"4px" }}>📚 全過去問（第1〜19回）</div>
-                <div style={{ fontSize:"12px", color:gold, fontFamily:"sans-serif", marginBottom:"12px" }}>全{category.allQuestions.length}問からランダム出題</div>
-                <button onClick={()=>startQuiz("all")} style={{ background:"rgba(255,255,255,0.08)", border:`1px solid rgba(139,105,20,0.5)`, borderRadius:"8px", padding:"11px 28px", fontSize:"14px", color:"#f5e6c8", cursor:"pointer", fontFamily:"sans-serif" }}>スタート ▶</button>
+                <div style={{ fontSize:"21px", fontWeight:"bold", marginBottom:"4px" }}>📚 全過去問（第1〜19回）</div>
+                <div style={{ fontSize:"21px", color:gold, fontFamily:"sans-serif", marginBottom:"12px" }}>全{category.allQuestions.length}問からランダム出題</div>
+                <button onClick={()=>startQuiz("all")} style={{ background:"rgba(255,255,255,0.08)", border:`1px solid rgba(139,105,20,0.5)`, borderRadius:"8px", padding:"11px 28px", fontSize:"23px", color:"#f5e6c8", cursor:"pointer", fontFamily:"sans-serif" }}>スタート ▶</button>
               </div>
               <div style={{ background:"rgba(0,0,0,0.4)", border:"1px solid rgba(139,105,20,0.4)", borderRadius:"12px", padding:"18px" }}>
-                <div style={{ fontSize:"15px", fontWeight:"bold", marginBottom:"4px" }}>⚡ クイック20問</div>
-                <div style={{ fontSize:"12px", color:gold, fontFamily:"sans-serif", marginBottom:"12px" }}>全過去問からランダムに20問だけ出題</div>
-                <button onClick={()=>startQuiz("quick")} style={{ background:"rgba(255,255,255,0.08)", border:`1px solid rgba(139,105,20,0.5)`, borderRadius:"8px", padding:"11px 28px", fontSize:"14px", color:"#f5e6c8", cursor:"pointer", fontFamily:"sans-serif" }}>スタート ▶</button>
+                <div style={{ fontSize:"21px", fontWeight:"bold", marginBottom:"4px" }}>⚡ クイック20問</div>
+                <div style={{ fontSize:"21px", color:gold, fontFamily:"sans-serif", marginBottom:"12px" }}>全過去問からランダムに20問だけ出題</div>
+                <button onClick={()=>startQuiz("quick")} style={{ background:"rgba(255,255,255,0.08)", border:`1px solid rgba(139,105,20,0.5)`, borderRadius:"8px", padding:"11px 28px", fontSize:"23px", color:"#f5e6c8", cursor:"pointer", fontFamily:"sans-serif" }}>スタート ▶</button>
               </div>
-              <button onClick={()=>setPhase("top")} style={{ background:"transparent", border:"none", color:"#a89060", fontSize:"13px", cursor:"pointer", fontFamily:"sans-serif", padding:"8px" }}>← カテゴリ選択に戻る</button>
+              <button onClick={()=>setPhase("top")} style={{ background:"transparent", border:"none", color:"#a89060", fontSize:"19px", cursor:"pointer", fontFamily:"sans-serif", padding:"8px" }}>← カテゴリ選択に戻る</button>
             </div>
           </div>
         )}
@@ -204,7 +204,7 @@ export default function KamakuraQuiz() {
         {phase === "quiz" && current && (
           <div>
             <div style={{ marginBottom:"18px" }}>
-              <div style={{ display:"flex", justifyContent:"space-between", fontSize:"12px", color:gold, fontFamily:"sans-serif", marginBottom:"6px" }}>
+              <div style={{ display:"flex", justifyContent:"space-between", fontSize:"21px", color:gold, fontFamily:"sans-serif", marginBottom:"6px" }}>
                 <span>Q{currentIdx + 1} / {pool.length}</span><span>{pct}%</span>
               </div>
               <div style={{ height:"4px", background:"rgba(255,255,255,0.1)", borderRadius:"2px" }}>
@@ -212,11 +212,11 @@ export default function KamakuraQuiz() {
               </div>
             </div>
 
-            <div style={{ background:"rgba(139,105,20,0.3)", border:`1px solid ${darkGold}`, borderRadius:"4px", padding:"3px 10px", fontSize:"12px", color:gold, fontFamily:"sans-serif", display:"inline-block", marginBottom:"12px" }}>
+            <div style={{ background:"rgba(139,105,20,0.3)", border:`1px solid ${darkGold}`, borderRadius:"4px", padding:"3px 10px", fontSize:"21px", color:gold, fontFamily:"sans-serif", display:"inline-block", marginBottom:"12px" }}>
               第{current.round}回・{current.qno}問目
             </div>
 
-            <div style={{ background:"rgba(0,0,0,0.4)", border:"1px solid rgba(139,105,20,0.4)", borderRadius:"12px", padding:"20px", marginBottom:"16px", lineHeight:"1.8", fontSize:"15px" }}>
+            <div style={{ background:"rgba(0,0,0,0.4)", border:"1px solid rgba(139,105,20,0.4)", borderRadius:"12px", padding:"20px", marginBottom:"16px", lineHeight:"1.8", fontSize:"21px" }}>
               {current.question}
             </div>
 
@@ -230,7 +230,7 @@ export default function KamakuraQuiz() {
                   else if (idx === selected) { bg="rgba(140,30,30,0.4)"; border="1px solid #e53935"; color="#ffaaaa"; }
                 }
                 return (
-                  <button key={idx} onClick={()=>handleSelect(idx)} style={{ background:bg, border, borderRadius:"8px", padding:"13px 16px", color, textAlign:"left", cursor:showResult?"default":"pointer", fontSize:"14px", lineHeight:"1.5", fontFamily:"inherit", width:"100%", transition:"all 0.2s" }}>
+                  <button key={idx} onClick={()=>handleSelect(idx)} style={{ background:bg, border, borderRadius:"8px", padding:"13px 16px", color, textAlign:"left", cursor:showResult?"default":"pointer", fontSize:"23px", lineHeight:"1.5", fontFamily:"inherit", width:"100%", transition:"all 0.2s" }}>
                     <span style={{ fontFamily:"sans-serif", marginRight:"8px", color:gold }}>{LABEL[idx]}</span>{choice}
                   </button>
                 );
@@ -238,11 +238,11 @@ export default function KamakuraQuiz() {
             </div>
 
             {showResult && (
-              <div style={{ background: selected===current.answer?"rgba(30,80,30,0.4)":"rgba(80,20,20,0.4)", border:`1px solid ${selected===current.answer?"#4caf50":"#e53935"}`, borderRadius:"10px", padding:"14px", marginBottom:"16px", fontSize:"13px", lineHeight:"1.7", fontFamily:"sans-serif" }}>
+              <div style={{ background: selected===current.answer?"rgba(30,80,30,0.4)":"rgba(80,20,20,0.4)", border:`1px solid ${selected===current.answer?"#4caf50":"#e53935"}`, borderRadius:"10px", padding:"14px", marginBottom:"16px", fontSize:"19px", lineHeight:"1.7", fontFamily:"sans-serif" }}>
                 <div style={{ fontWeight:"bold", marginBottom:"4px", color: selected===current.answer?"#a8f0a8":"#ffaaaa" }}>
                   {selected===current.answer ? "✓ 正解！" : `✗ 不正解　正解：${LABEL[current.answer]}「${current.choices[current.answer]}」`}
                 </div>
-                <div style={{ color:"#8b7040", fontSize:"12px", borderTop:"1px solid rgba(139,105,20,0.3)", paddingTop:"8px", marginTop:"6px", display:"flex", flexDirection:"column", gap:"3px" }}>
+                <div style={{ color:"#8b7040", fontSize:"21px", borderTop:"1px solid rgba(139,105,20,0.3)", paddingTop:"8px", marginTop:"6px", display:"flex", flexDirection:"column", gap:"3px" }}>
                   <span>📋 出典：第{current.round}回 {current.qno}問目</span>
                   {current.textPage && (
                     <span>📖 関連テキストページ：p.{current.textPage}</span>
@@ -253,16 +253,16 @@ export default function KamakuraQuiz() {
 
             {showResult && (
               <div style={{ display:"flex", flexDirection:"column", gap:"10px" }}>
-                <button onClick={handleNext} style={{ width:"100%", background:`linear-gradient(135deg,${darkGold},${gold})`, border:"none", borderRadius:"8px", padding:"13px", fontSize:"15px", color:"#1a0a00", fontWeight:"bold", cursor:"pointer", fontFamily:"sans-serif", letterSpacing:"1px" }}>
+                <button onClick={handleNext} style={{ width:"100%", background:`linear-gradient(135deg,${darkGold},${gold})`, border:"none", borderRadius:"8px", padding:"13px", fontSize:"21px", color:"#1a0a00", fontWeight:"bold", cursor:"pointer", fontFamily:"sans-serif", letterSpacing:"1px" }}>
                   {currentIdx + 1 >= pool.length ? "結果を見る →" : "次の問題 →"}
                 </button>
                 <div style={{ display:"flex", gap:"10px" }}>
                   {currentIdx > 0 && (
-                    <button onClick={handlePrev} style={{ flex:1, background:"rgba(255,255,255,0.08)", border:`1px solid rgba(139,105,20,0.5)`, borderRadius:"8px", padding:"11px", fontSize:"14px", color:"#f5e6c8", cursor:"pointer", fontFamily:"sans-serif" }}>
+                    <button onClick={handlePrev} style={{ flex:1, background:"rgba(255,255,255,0.08)", border:`1px solid rgba(139,105,20,0.5)`, borderRadius:"8px", padding:"11px", fontSize:"23px", color:"#f5e6c8", cursor:"pointer", fontFamily:"sans-serif" }}>
                       ← 前の問題
                     </button>
                   )}
-                  <button onClick={goTop} style={{ flex:1, background:"rgba(255,255,255,0.05)", border:"1px solid rgba(255,255,255,0.15)", borderRadius:"8px", padding:"11px", fontSize:"14px", color:"#a89060", cursor:"pointer", fontFamily:"sans-serif" }}>
+                  <button onClick={goTop} style={{ flex:1, background:"rgba(255,255,255,0.05)", border:"1px solid rgba(255,255,255,0.15)", borderRadius:"8px", padding:"11px", fontSize:"23px", color:"#a89060", cursor:"pointer", fontFamily:"sans-serif" }}>
                     🏠 トップへ
                   </button>
                 </div>
@@ -274,28 +274,28 @@ export default function KamakuraQuiz() {
         {/* DONE */}
         {phase === "done" && (
           <div style={{ textAlign:"center", paddingTop:"16px" }}>
-            <div style={{ fontSize:"52px", marginBottom:"10px" }}>
+            <div style={{ fontSize:"56px", marginBottom:"10px" }}>
               {sc.correct/sc.total>=0.8?"🏆":sc.correct/sc.total>=0.6?"📜":"🗡"}
             </div>
-            <h2 style={{ fontSize:"20px", marginBottom:"6px" }}>クイズ終了！</h2>
+            <h2 style={{ fontSize:"23px", marginBottom:"6px" }}>クイズ終了！</h2>
             <div style={{ background:"rgba(0,0,0,0.4)", border:`1px solid ${darkGold}`, borderRadius:"12px", padding:"24px", marginBottom:"16px" }}>
-              <div style={{ fontSize:"11px", color:gold, fontFamily:"sans-serif", marginBottom:"6px" }}>{category?.label} ／ {modeLabel}</div>
+              <div style={{ fontSize:"23px", color:gold, fontFamily:"sans-serif", marginBottom:"6px" }}>{category?.label} ／ {modeLabel}</div>
               <div style={{ fontSize:"44px", fontWeight:"bold", color:gold, fontFamily:"sans-serif" }}>
                 {sc.correct}<span style={{ fontSize:"22px", color:"#a89060" }}>/{sc.total}</span>
               </div>
-              <div style={{ fontSize:"26px", color:gold, fontFamily:"sans-serif", marginBottom:"10px" }}>
+              <div style={{ fontSize:"30px", color:gold, fontFamily:"sans-serif", marginBottom:"10px" }}>
                 {Math.round(sc.correct/sc.total*100)}点
               </div>
-              <div style={{ fontSize:"13px", color:"#d4c090", fontFamily:"sans-serif" }}>
+              <div style={{ fontSize:"19px", color:"#d4c090", fontFamily:"sans-serif" }}>
                 {sc.correct/sc.total>=0.8?"🎉 合格圏内！素晴らしい結果です。":sc.correct/sc.total>=0.6?"📖 もう少し！苦手分野を復習しよう。":"💪 再挑戦して知識を深めよう！"}
               </div>
             </div>
 
             <div style={{ textAlign:"left", marginBottom:"20px" }}>
-              <div style={{ fontSize:"12px", color:gold, fontFamily:"sans-serif", marginBottom:"8px" }}>正誤一覧</div>
+              <div style={{ fontSize:"21px", color:gold, fontFamily:"sans-serif", marginBottom:"8px" }}>正誤一覧</div>
               {history.map((h, i) => (
-                <div key={i} style={{ display:"flex", alignItems:"flex-start", gap:"8px", padding:"7px 0", borderBottom:"1px solid rgba(255,255,255,0.05)", fontSize:"12px", fontFamily:"sans-serif" }}>
-                  <span style={{ color:h.correct?"#4caf50":"#e53935", fontSize:"15px", flexShrink:0 }}>{h.correct?"○":"✗"}</span>
+                <div key={i} style={{ display:"flex", alignItems:"flex-start", gap:"8px", padding:"7px 0", borderBottom:"1px solid rgba(255,255,255,0.05)", fontSize:"21px", fontFamily:"sans-serif" }}>
+                  <span style={{ color:h.correct?"#4caf50":"#e53935", fontSize:"21px", flexShrink:0 }}>{h.correct?"○":"✗"}</span>
                   <span style={{ color:"#a89060", flexShrink:0 }}>[第{h.round}回-{h.qno}問]</span>
                   <span style={{ color:"#d4c090", lineHeight:"1.5" }}>{h.question.slice(0,30)}{h.question.length>30?"…":""}</span>
                 </div>
@@ -304,11 +304,11 @@ export default function KamakuraQuiz() {
 
             <div style={{ display:"flex", flexDirection:"column", gap:"10px", alignItems:"center" }}>
               <div style={{ display:"flex", gap:"12px", flexWrap:"wrap", justifyContent:"center" }}>
-                <button onClick={()=>startQuiz(mode)} style={{ background:`linear-gradient(135deg,${darkGold},${gold})`, border:"none", borderRadius:"8px", padding:"12px 24px", fontSize:"14px", color:"#1a0a00", fontWeight:"bold", cursor:"pointer", fontFamily:"sans-serif" }}>🔄 同じ範囲で再挑戦</button>
-                <button onClick={()=>setPhase("mode")} style={{ background:"rgba(255,255,255,0.08)", border:`1px solid rgba(139,105,20,0.5)`, borderRadius:"8px", padding:"12px 24px", fontSize:"14px", color:"#f5e6c8", cursor:"pointer", fontFamily:"sans-serif" }}>📋 モード選択へ</button>
-                <button onClick={goTop} style={{ background:"rgba(255,255,255,0.08)", border:`1px solid rgba(139,105,20,0.5)`, borderRadius:"8px", padding:"12px 24px", fontSize:"14px", color:"#f5e6c8", cursor:"pointer", fontFamily:"sans-serif" }}>🏠 トップへ</button>
+                <button onClick={()=>startQuiz(mode)} style={{ background:`linear-gradient(135deg,${darkGold},${gold})`, border:"none", borderRadius:"8px", padding:"12px 24px", fontSize:"23px", color:"#1a0a00", fontWeight:"bold", cursor:"pointer", fontFamily:"sans-serif" }}>🔄 同じ範囲で再挑戦</button>
+                <button onClick={()=>setPhase("mode")} style={{ background:"rgba(255,255,255,0.08)", border:`1px solid rgba(139,105,20,0.5)`, borderRadius:"8px", padding:"12px 24px", fontSize:"23px", color:"#f5e6c8", cursor:"pointer", fontFamily:"sans-serif" }}>📋 モード選択へ</button>
+                <button onClick={goTop} style={{ background:"rgba(255,255,255,0.08)", border:`1px solid rgba(139,105,20,0.5)`, borderRadius:"8px", padding:"12px 24px", fontSize:"23px", color:"#f5e6c8", cursor:"pointer", fontFamily:"sans-serif" }}>🏠 トップへ</button>
               </div>
-              <button onClick={downloadResult} style={{ background:"rgba(255,255,255,0.08)", border:`1px solid rgba(139,105,20,0.5)`, borderRadius:"8px", padding:"12px 28px", fontSize:"14px", color:"#f5e6c8", cursor:"pointer", fontFamily:"sans-serif" }}>
+              <button onClick={downloadResult} style={{ background:"rgba(255,255,255,0.08)", border:`1px solid rgba(139,105,20,0.5)`, borderRadius:"8px", padding:"12px 28px", fontSize:"23px", color:"#f5e6c8", cursor:"pointer", fontFamily:"sans-serif" }}>
                 📄 結果をテキストで保存
               </button>
             </div>
