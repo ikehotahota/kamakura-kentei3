@@ -44,7 +44,9 @@ export default function KamakuraQuiz() {
     for (const cfg of MOCK_CONFIG) {
       const cat = CATEGORIES.find(c => c.id === cfg.id);
       if (!cat) continue;
-      const picked = shuffle(cat.allQuestions).slice(0, cfg.count);
+      const picked = shuffle(cat.allQuestions).slice(0, cfg.count).map(q => ({
+        ...q, mockCategory: cat.label, mockEmoji: cat.emoji
+      }));
       shuffled.push(...picked);
     }
     setMode("mock");
@@ -243,8 +245,15 @@ export default function KamakuraQuiz() {
               </div>
             </div>
 
-            <div style={{ background:"rgba(139,105,20,0.3)", border:`1px solid ${darkGold}`, borderRadius:"4px", padding:"3px 10px", fontSize:"12px", color:gold, fontFamily:"sans-serif", display:"inline-block", marginBottom:"12px" }}>
-              第{current.round}回・{current.qno}問目
+            <div style={{ display:"flex", gap:"8px", marginBottom:"12px", flexWrap:"wrap" }}>
+              <div style={{ background:"rgba(139,105,20,0.3)", border:`1px solid ${darkGold}`, borderRadius:"4px", padding:"3px 10px", fontSize:"12px", color:gold, fontFamily:"sans-serif" }}>
+                第{current.round}回・{current.qno}問目
+              </div>
+              {mode === "mock" && current.mockCategory && (
+                <div style={{ background:"rgba(74,26,107,0.4)", border:"1px solid #8b3fc8", borderRadius:"4px", padding:"3px 10px", fontSize:"12px", color:"#d4a8f0", fontFamily:"sans-serif" }}>
+                  {current.mockEmoji} {current.mockCategory}
+                </div>
+              )}
             </div>
 
             <div style={{ background:"rgba(0,0,0,0.4)", border:"1px solid rgba(139,105,20,0.4)", borderRadius:"12px", padding:"20px", marginBottom:"16px", lineHeight:"1.8", fontSize:"16px" }}>
