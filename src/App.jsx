@@ -83,7 +83,7 @@ export default function KamakuraQuiz() {
     const ok = idx === current.answer;
     if (currentIdx === sc.total) {
       setSc(s => ({ correct: s.correct + (ok ? 1 : 0), total: s.total + 1 }));
-      setHistory(h => [...h, { question: current.question, correct: ok, round: current.round, qno: current.qno, selectedIdx: idx }]);
+      setHistory(h => [...h, { question: current.question, correct: ok, round: current.round, qno: current.qno, selectedIdx: idx, mockCategory: current.mockCategory || null, mockEmoji: current.mockEmoji || null }]);
     }
   };
 
@@ -122,6 +122,20 @@ export default function KamakuraQuiz() {
       `出題モード：${mLabel}`,
       `得点：${sc.correct} / ${sc.total} 問（${score}点）`,
       score >= 70 ? "判定：合格圏内 🏆" : score >= 60 ? "判定：もう少し 📜" : "判定：要復習 💪",
+      "",
+      ...(mode === "mock" ? (() => {
+        const catMap = {};
+        for (const cfg of MOCK_CONFIG) {
+          const cat = CATEGORIES.find(c => c.id === cfg.id);
+          if (cat) catMap[cat.label] = { emoji: cat.emoji, correct: 0, total: cfg.count };
+        }
+        history.forEach(h => { if (h.mockCategory && catMap[h.mockCategory] && h.correct) catMap[h.mockCategory].correct++; });
+        return [
+          "",
+          "【カテゴリー別得点】",
+          ...Object.entries(catMap).map(([label, v]) => `${v.emoji} ${label}：${v.correct}/${v.total}問 (${Math.round(v.correct/v.total*100)}%)`),
+        ];
+      })() : []),
       "",
       "【正誤一覧】",
       ...history.map(h => `${h.correct ? "○" : "✗"} [第${h.round}回-${h.qno}問] ${h.question.slice(0, 40)}${h.question.length > 40 ? "…" : ""}`),
@@ -331,12 +345,47 @@ export default function KamakuraQuiz() {
               </div>
             </div>
 
+            {mode === "mock" && (() => {
+              const catMap = {};
+              for (const cfg of MOCK_CONFIG) {
+                const cat = CATEGORIES.find(c => c.id === cfg.id);
+                if (cat) catMap[cat.label] = { emoji: cat.emoji, correct: 0, total: cfg.count };
+              }
+              history.forEach(h => {
+                if (h.mockCategory && catMap[h.mockCategory]) {
+                  if (h.correct) catMap[h.mockCategory].correct++;
+                }
+              });
+              return (
+                <div style={{ background:"rgba(0,0,0,0.3)", border:"1px solid rgba(139,105,20,0.3)", borderRadius:"12px", padding:"16px", marginBottom:"16px" }}>
+                  <div style={{ fontSize:"13px", color:gold, fontFamily:"sans-serif", marginBottom:"12px", fontWeight:"bold" }}>カテゴリー別得点</div>
+                  {Object.entries(catMap).map(([label, v]) => {
+                    const pct = Math.round(v.correct / v.total * 100);
+                    return (
+                      <div key={label} style={{ marginBottom:"10px" }}>
+                        <div style={{ display:"flex", justifyContent:"space-between", fontSize:"13px", fontFamily:"sans-serif", marginBottom:"4px" }}>
+                          <span style={{ color:"#f5e6c8" }}>{v.emoji} {label}</span>
+                          <span style={{ color: pct >= 70 ? "#4caf50" : pct >= 50 ? gold : "#e53935" }}>
+                            {v.correct}/{v.total}問 ({pct}%)
+                          </span>
+                        </div>
+                        <div style={{ height:"6px", background:"rgba(255,255,255,0.1)", borderRadius:"3px" }}>
+                          <div style={{ height:"100%", width:`${pct}%`, background: pct >= 70 ? "#4caf50" : pct >= 50 ? gold : "#e53935", borderRadius:"3px", transition:"width 0.5s" }} />
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              );
+            })()}
+
             <div style={{ textAlign:"left", marginBottom:"20px" }}>
               <div style={{ fontSize:"12px", color:gold, fontFamily:"sans-serif", marginBottom:"8px" }}>正誤一覧</div>
               {history.map((h, i) => (
                 <div key={i} style={{ display:"flex", alignItems:"flex-start", gap:"8px", padding:"7px 0", borderBottom:"1px solid rgba(255,255,255,0.05)", fontSize:"12px", fontFamily:"sans-serif" }}>
                   <span style={{ color:h.correct?"#4caf50":"#e53935", fontSize:"15px", flexShrink:0 }}>{h.correct?"○":"✗"}</span>
                   <span style={{ color:"#a89060", flexShrink:0 }}>[第{h.round}回-{h.qno}問]</span>
+                  {h.mockCategory && <span style={{ color:"#9b6fc8", flexShrink:0, fontSize:"11px" }}>{h.mockEmoji}{h.mockCategory}</span>}
                   <span style={{ color:"#d4c090", lineHeight:"1.5" }}>{h.question.slice(0,30)}{h.question.length>30?"…":""}</span>
                 </div>
               ))}
